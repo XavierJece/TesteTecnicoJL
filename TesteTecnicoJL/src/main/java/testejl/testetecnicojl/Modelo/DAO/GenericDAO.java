@@ -25,7 +25,7 @@ public interface GenericDAO<T> {
     
     List listAll(Class clazz, String order, int limite, String column);
     
-    void update(T objeto);
+    boolean update(T objeto);
     
     void delete(T objeto);
     

@@ -84,10 +84,16 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
     }
 
     @Override
-    public void update(T objeto) {
-        manager.getTransaction().begin();
-        manager.merge(objeto);
-        manager.getTransaction().commit();
+    public boolean update(T objeto) {
+        try {
+            manager.getTransaction().begin();
+            manager.merge(objeto);
+            manager.getTransaction().commit();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e, "ERRO :(", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
     @Override
