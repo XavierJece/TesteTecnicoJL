@@ -78,8 +78,8 @@ public class Home extends javax.swing.JFrame {
         });
         jmbProduto.add(jmbiProdutoCadastar);
 
-        jmbiProdutoEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoEditar.png"))); // NOI18N
-        jmbiProdutoEditar.setText("Editar Produto");
+        jmbiProdutoEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoLista.png"))); // NOI18N
+        jmbiProdutoEditar.setText("Lista Produto");
         jmbiProdutoEditar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jmbiProdutoEditarMouseClicked(evt);
@@ -128,9 +128,9 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jmbiProdutoCadastarActionPerformed
 
     private void jmbiProdutoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoEditarActionPerformed
-        ProdutoCRUD telaProduto = new ProdutoCRUD("Editar Produto", false);
-        this.jdkpHome.add(telaProduto);
-        telaProduto.setVisible(true);
+        ProdutoList telaProdutoList = new ProdutoList();
+        this.jdkpHome.add(telaProdutoList);
+        telaProdutoList.setVisible(true);
     }//GEN-LAST:event_jmbiProdutoEditarActionPerformed
 
     /**

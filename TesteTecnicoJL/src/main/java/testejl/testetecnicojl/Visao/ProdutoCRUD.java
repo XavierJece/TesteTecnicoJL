@@ -110,7 +110,7 @@ public class ProdutoCRUD extends javax.swing.JInternalFrame {
             }
         });
         panelFundo.add(btnSalvar);
-        btnSalvar.setBounds(330, 370, 140, 40);
+        btnSalvar.setBounds(330, 380, 140, 40);
 
         txtValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         panelFundo.add(txtValor);
@@ -141,7 +141,7 @@ public class ProdutoCRUD extends javax.swing.JInternalFrame {
             .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 500, 460);
+        setBounds(0, 0, 500, 470);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed

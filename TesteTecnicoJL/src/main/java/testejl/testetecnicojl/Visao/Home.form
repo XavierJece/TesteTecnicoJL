@@ -27,9 +27,9 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmbiProdutoEditar">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icones/menuProdutoEditar.png"/>
+                  <Image iconType="3" name="/icones/menuProdutoLista.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Editar Produto"/>
+                <Property name="text" type="java.lang.String" value="Lista Produto"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jmbiProdutoEditarMouseClicked"/>
