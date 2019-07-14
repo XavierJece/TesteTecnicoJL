@@ -49,18 +49,24 @@
             <MenuItem class="javax.swing.JMenuItem" name="jmbiEstoqueEntrada">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icones/menuEstoqueEntrada.png"/>
+                  <Image iconType="3" name="/icones/menuProdutoCadastro.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Entrada"/>
+                <Property name="text" type="java.lang.String" value="Cadastrar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmbiEstoqueEntradaActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jmbiEstoqueSaida">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icones/menuEstoqueSaida.png"/>
+                  <Image iconType="3" name="/icones/menuProdutoLista.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Saida"/>
+                <Property name="text" type="java.lang.String" value="Listar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmbiEstoqueSaidaActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

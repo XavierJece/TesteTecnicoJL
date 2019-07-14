@@ -11,13 +11,14 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import testejl.testetecnicojl.Modelo.RN.GenericRN;
+import testejl.testetecnicojl.Modelo.VO.MovimentoEstoque;
 import testejl.testetecnicojl.Modelo.VO.Produto;
 
 /**
  *
  * @author Jece Xavier
  */
-public class ProdutoList extends javax.swing.JInternalFrame {
+public class MovimentoList extends javax.swing.JInternalFrame {
     
 //    Atributos
     private Produto produto;
@@ -25,7 +26,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
     /**
      * Creates new form ProdutoCRUD
      */
-    public ProdutoList( ) {
+    public MovimentoList( ) {
         initComponents();
         
         this.populaJtable();
@@ -43,7 +44,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
         panleFundo = new javax.swing.JPanel();
         btnSalvar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblProduto = new javax.swing.JTable();
+        tblMoviento = new javax.swing.JTable();
         lblTitulo = new javax.swing.JLabel();
 
         setClosable(true);
@@ -60,12 +61,12 @@ public class ProdutoList extends javax.swing.JInternalFrame {
         panleFundo.add(btnSalvar);
         btnSalvar.setBounds(350, 80, 120, 30);
 
-        tblProduto.setModel(new javax.swing.table.DefaultTableModel(
+        tblMoviento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Descrição", "Quantidade Minima", "Valor", "Cadastrado em"
+                "ID", "Produto", "Quantidade", "Tipo ", "Data"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -76,19 +77,19 @@ public class ProdutoList extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblProduto.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblMoviento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblProdutoKeyReleased(evt);
+                tblMovientoKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblProduto);
+        jScrollPane1.setViewportView(tblMoviento);
 
         panleFundo.add(jScrollPane1);
         jScrollPane1.setBounds(0, 120, 480, 310);
 
         lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Lista de Produtos");
+        lblTitulo.setText("Lista de Movimentação");
         panleFundo.add(lblTitulo);
         lblTitulo.setBounds(0, 10, 480, 60);
 
@@ -106,17 +107,17 @@ public class ProdutoList extends javax.swing.JInternalFrame {
         setBounds(0, 0, 500, 470);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProdutoKeyReleased
+    private void tblMovientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblMovientoKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblProdutoKeyReleased
+    }//GEN-LAST:event_tblMovientoKeyReleased
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        if(tblProduto.getSelectedRow()!= -1){
-            long id = (long) tblProduto.getValueAt(tblProduto.getSelectedRow(), 0);
-            String descricao = (String) tblProduto.getValueAt(tblProduto.getSelectedRow(), 1);
-            int quantidadeMinima = (int) tblProduto.getValueAt(tblProduto.getSelectedRow(), 2);
-            double valor = (double) tblProduto.getValueAt(tblProduto.getSelectedRow(), 3);
-            LocalDate dataCadastro = (LocalDate) tblProduto.getValueAt(tblProduto.getSelectedRow(), 4); 
+        if(tblMoviento.getSelectedRow()!= -1){
+            long id = (long) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 0);
+            String descricao = (String) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 1);
+            int quantidadeMinima = (int) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 2);
+            double valor = (double) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 3);
+            LocalDate dataCadastro = (LocalDate) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 4); 
             
             produto = new Produto(id, descricao, quantidadeMinima, dataCadastro, valor);
             
@@ -136,27 +137,26 @@ public class ProdutoList extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panleFundo;
-    private javax.swing.JTable tblProduto;
+    private javax.swing.JTable tblMoviento;
     // End of variables declaration//GEN-END:variables
     
     /*Minhas Funções*/
     private void populaJtable(){
-        DefaultTableModel modelo = (DefaultTableModel)(tblProduto.getModel());
-        GenericRN<Produto>  produtoDAO = new GenericRN<>();
+        DefaultTableModel modelo = (DefaultTableModel)(tblMoviento.getModel());
+        GenericRN<MovimentoEstoque>  movimentoDAO = new GenericRN<>();
         
-        
-        for(Produto p : produtoDAO.listAll(Produto.class)){
+        for(MovimentoEstoque m : movimentoDAO.listAll(MovimentoEstoque.class)){
             modelo.addRow(new Object[] {
-                p.getId(),
-                p.getDrescricao(),
-                p.getQuatidadeMinima(),
-                p.getValor(),
-                p.getDataCadastro()
+                m.getId(),
+                m.getProduto(),
+                m.getQuantidade(),
+                m.getTipoMovimento(),
+                m.getDataMovimento()
             });
             
         }
         
-        tblProduto.setRowSorter(new TableRowSorter(modelo));
+        tblMoviento.setRowSorter(new TableRowSorter(modelo));
         
         
     }

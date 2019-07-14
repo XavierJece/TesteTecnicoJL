@@ -110,6 +110,13 @@ public class Produto {
         this.movitmentos = movitmentos;
     }
 
+    @Override
+    public String toString() {
+        return getDrescricao();
+    }
+    
+    
+
     
     
 }

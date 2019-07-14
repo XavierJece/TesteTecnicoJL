@@ -97,12 +97,22 @@ public class Home extends javax.swing.JFrame {
         jmbEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuEstoque.png"))); // NOI18N
         jmbEstoque.setText("Estoque");
 
-        jmbiEstoqueEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuEstoqueEntrada.png"))); // NOI18N
-        jmbiEstoqueEntrada.setText("Entrada");
+        jmbiEstoqueEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoCadastro.png"))); // NOI18N
+        jmbiEstoqueEntrada.setText("Cadastrar");
+        jmbiEstoqueEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmbiEstoqueEntradaActionPerformed(evt);
+            }
+        });
         jmbEstoque.add(jmbiEstoqueEntrada);
 
-        jmbiEstoqueSaida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuEstoqueSaida.png"))); // NOI18N
-        jmbiEstoqueSaida.setText("Saida");
+        jmbiEstoqueSaida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoLista.png"))); // NOI18N
+        jmbiEstoqueSaida.setText("Listar");
+        jmbiEstoqueSaida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmbiEstoqueSaidaActionPerformed(evt);
+            }
+        });
         jmbEstoque.add(jmbiEstoqueSaida);
 
         jmbPrincipal.add(jmbEstoque);
@@ -132,6 +142,18 @@ public class Home extends javax.swing.JFrame {
         this.jdkpHome.add(telaProdutoList);
         telaProdutoList.setVisible(true);
     }//GEN-LAST:event_jmbiProdutoEditarActionPerformed
+
+    private void jmbiEstoqueEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiEstoqueEntradaActionPerformed
+        MovimentoCRUD telaEstoque = new MovimentoCRUD("Cadastro", true);
+        this.jdkpHome.add(telaEstoque);
+        telaEstoque.setVisible(true);
+    }//GEN-LAST:event_jmbiEstoqueEntradaActionPerformed
+
+    private void jmbiEstoqueSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiEstoqueSaidaActionPerformed
+        MovimentoList telaMovimentoList = new MovimentoList();
+        this.jdkpHome.add(telaMovimentoList);
+        telaMovimentoList.setVisible(true);
+    }//GEN-LAST:event_jmbiEstoqueSaidaActionPerformed
 
     /**
      * @param args the command line arguments
