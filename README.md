@@ -1,8 +1,6 @@
 # Teste Técnico JL
-
-##Sistema proposto para avaliar o conhcimento técnico.
+## Sistema proposto para avaliar o conhcimento técnico.
 ---
-
 ### Pré Requisitos
 
 - README bem descrito para implantação e utilização do sistema.
