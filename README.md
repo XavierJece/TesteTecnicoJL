@@ -35,8 +35,8 @@
  1. Conta com um JFrame principal que contém um JMenuBar para navegação do sistema.
  2. JMenuBar com dois JMenu um para produtos e outro para a movimentação dos estoque.
   1. Os dois JMenu contém dois JMenuItem, para cadastro e listagem dos registros.
- 3. As telas tanto de Cadastro como a de Listagem são JInternalFrame.
- 4. Para fazer Edição de algum registro, basta selecionar o mesmo na tabela de registro e escolher a opção editar.
+ 3. As telas tanto de cadastro como a de listagem são JInternalFrame.
+ 4. Para fazer edição de algum registro, basta selecionar o mesmo na tabela de registro e escolher a opção editar.
  
  ### Aplicação Web
  
