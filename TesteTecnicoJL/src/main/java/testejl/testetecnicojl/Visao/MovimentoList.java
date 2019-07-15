@@ -1,12 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package testejl.testetecnicojl.Visao;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -21,7 +18,6 @@ import testejl.testetecnicojl.Modelo.VO.Produto;
 public class MovimentoList extends javax.swing.JInternalFrame {
     
 //    Atributos
-    private Produto produto;
     
     /**
      * Creates new form ProdutoCRUD
@@ -42,7 +38,7 @@ public class MovimentoList extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         panleFundo = new javax.swing.JPanel();
-        btnSalvar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMoviento = new javax.swing.JTable();
         lblTitulo = new javax.swing.JLabel();
@@ -51,15 +47,15 @@ public class MovimentoList extends javax.swing.JInternalFrame {
 
         panleFundo.setLayout(null);
 
-        btnSalvar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        btnSalvar.setText("Editar");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
-        panleFundo.add(btnSalvar);
-        btnSalvar.setBounds(350, 80, 120, 30);
+        panleFundo.add(btnEditar);
+        btnEditar.setBounds(350, 80, 120, 30);
 
         tblMoviento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -85,7 +81,7 @@ public class MovimentoList extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblMoviento);
 
         panleFundo.add(jScrollPane1);
-        jScrollPane1.setBounds(0, 120, 480, 310);
+        jScrollPane1.setBounds(10, 120, 460, 310);
 
         lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -111,29 +107,27 @@ public class MovimentoList extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblMovientoKeyReleased
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(tblMoviento.getSelectedRow()!= -1){
             long id = (long) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 0);
-            String descricao = (String) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 1);
-            int quantidadeMinima = (int) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 2);
-            double valor = (double) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 3);
-            LocalDate dataCadastro = (LocalDate) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 4); 
             
-            produto = new Produto(id, descricao, quantidadeMinima, dataCadastro, valor);
+            GenericRN<MovimentoEstoque>  movimentoDAO = new GenericRN<>();
             
-            ProdutoCRUD produtoCRUD = new ProdutoCRUD("Editar", produto, false);
-            this.getDesktopPane().add(produtoCRUD);
-            produtoCRUD.setVisible(true);
+            MovimentoEstoque movimento = movimentoDAO.findOne("id", id, MovimentoEstoque.class);
+            
+            MovimentoCRUD movimentoCRUD = new MovimentoCRUD("Editar", false, movimento);
+            this.getDesktopPane().add(movimentoCRUD);
+            movimentoCRUD.setVisible(true);
             this.dispose();
 
         }else{
-            JOptionPane.showMessageDialog(null, "Nenhum Produto Selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nenhum movimento selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnSalvarActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panleFundo;
@@ -144,14 +138,15 @@ public class MovimentoList extends javax.swing.JInternalFrame {
     private void populaJtable(){
         DefaultTableModel modelo = (DefaultTableModel)(tblMoviento.getModel());
         GenericRN<MovimentoEstoque>  movimentoDAO = new GenericRN<>();
+        DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
         for(MovimentoEstoque m : movimentoDAO.listAll(MovimentoEstoque.class)){
             modelo.addRow(new Object[] {
                 m.getId(),
                 m.getProduto(),
-                m.getQuantidade(),
+                (int) m.getQuantidade(),
                 m.getTipoMovimento(),
-                m.getDataMovimento()
+                m.getDataMovimento().format(formatadordDataBarra)
             });
             
         }

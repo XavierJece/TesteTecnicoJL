@@ -33,7 +33,7 @@ public class MovimentoEstoque {
     @Column(name = "data_movimento")
     private LocalDate dataMovimento;
     
-    private double quantidade;
+    private int quantidade;
     
     @Column(name = "tipo_movimentacao")
     private String tipoMovimentacao;
@@ -44,14 +44,14 @@ public class MovimentoEstoque {
     public MovimentoEstoque() {
     }
 
-    public MovimentoEstoque(Produto produto, LocalDate dataMovimento, double quantidade, TipoMovimentacao tipoMovimentacao) {
+    public MovimentoEstoque(Produto produto, LocalDate dataMovimento, int quantidade, TipoMovimentacao tipoMovimentacao) {
         this.produto = produto;
         this.dataMovimento = dataMovimento;
         this.quantidade = quantidade;
         this.tipoMovimentacao = tipoMovimentacao.getMovimentacao();
     }
 
-    public MovimentoEstoque(long id, Produto produto, LocalDate dataMovimento, double quantidade, TipoMovimentacao tipoMovimentacao) {
+    public MovimentoEstoque(long id, Produto produto, LocalDate dataMovimento, int quantidade, TipoMovimentacao tipoMovimentacao) {
         this.id = id;
         this.produto = produto;
         this.dataMovimento = dataMovimento;
@@ -89,11 +89,11 @@ public class MovimentoEstoque {
         this.dataMovimento = dataMovimento;
     }
 
-    public double getQuantidade() {
+    public int getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(double quantidade) {
+    public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
 

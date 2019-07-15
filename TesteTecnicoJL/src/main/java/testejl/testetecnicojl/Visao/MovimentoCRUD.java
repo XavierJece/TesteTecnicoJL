@@ -5,8 +5,11 @@
  */
 package testejl.testetecnicojl.Visao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import testejl.testetecnicojl.Modelo.RN.GenericRN;
 import testejl.testetecnicojl.Modelo.VO.MovimentoEstoque;
@@ -22,10 +25,8 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
 //    Atributos
     private MovimentoEstoque movimento;
     private boolean telaCadastro;
+
     
-    /**
-     * Creates new form ProdutoCRUD
-     */
     public MovimentoCRUD(String titulo, boolean telaCadastro ) {
         initComponents();
         
@@ -75,13 +76,13 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         txtCodigo = new javax.swing.JTextField();
         btnSalvar = new javax.swing.JButton();
         lblTipoMovimento = new javax.swing.JLabel();
-        txtQuantidade = new javax.swing.JFormattedTextField();
         lblDataCadastro = new javax.swing.JLabel();
         cmbTipoMovimento = new javax.swing.JComboBox<Object>();
         lblProduto = new javax.swing.JLabel();
         txtData = new javax.swing.JFormattedTextField();
         lblQuantidade1 = new javax.swing.JLabel();
         cmbProduto = new javax.swing.JComboBox<Object>();
+        txtQuantidade = new javax.swing.JFormattedTextField();
 
         setClosable(true);
 
@@ -112,11 +113,6 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         panelFundo.add(lblTipoMovimento);
         lblTipoMovimento.setBounds(300, 180, 160, 30);
 
-        txtQuantidade.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        txtQuantidade.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        panelFundo.add(txtQuantidade);
-        txtQuantidade.setBounds(20, 300, 210, 30);
-
         lblDataCadastro.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblDataCadastro.setText("Data de Cadastro:");
         panelFundo.add(lblDataCadastro);
@@ -145,6 +141,10 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         panelFundo.add(cmbProduto);
         cmbProduto.setBounds(20, 220, 200, 30);
 
+        txtQuantidade.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        panelFundo.add(txtQuantidade);
+        txtQuantidade.setBounds(20, 300, 210, 30);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,7 +158,7 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
 
         setBounds(0, 0, 500, 470);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if(this.validarCampos()){
             
@@ -215,32 +215,51 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
     
     /*Minhas Funções*/
     private boolean validarCampos(){
-        if ( (txtQuantidade.getText().isEmpty()) || (txtData.getText().isEmpty()) ) {
+        if ( (txtQuantidade.getText().isEmpty()) || (txtData.getText().isEmpty()) || (cmbProduto.getItemCount() == 0) || (cmbTipoMovimento.getSelectedItem() == null) ) {
             return false;
+        }else{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+            String data = txtData.getText();
+            LocalDate dataMovimentacao = LocalDate.parse(data, formatter);
+            
+            if(dataMovimentacao.isAfter(LocalDate.now())){
+                return false;
+            }
+                
+            
         }
         return true;
     }
     
     private void populaCampos(){
         txtCodigo.setText(String.valueOf(movimento.getId()));
-        txtData.setText(String.valueOf(movimento.getDataMovimento()));
         txtQuantidade.setText(String.valueOf(movimento.getQuantidade()));
-        cmbProduto.setSelectedItem(movimento.getProduto());
-        cmbTipoMovimento.setSelectedItem(movimento.getTipoMovimento());
+        cmbProduto.setSelectedItem(movimento.getProduto());      
+        
+        DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        txtData.setText(movimento.getDataMovimento().format(formatadordDataBarra));
+        
+
+        if(movimento.getTipoMovimento().equals(TipoMovimentacao.ENTRADA)){
+            cmbTipoMovimento.setSelectedItem(TipoMovimentacao.ENTRADA);
+        }else{
+            cmbTipoMovimento.setSelectedItem(TipoMovimentacao.SAIDA);
+        }
+        
+        
         
     }
     
     private void populaCmb(){
         
         GenericRN<Produto> produdoRN =new GenericRN<>();
-        
+
         for (Produto p : produdoRN.listAll(Produto.class)){
-            
+
             cmbProduto.addItem(p);
         }
-        
-        cmbTipoMovimento.addItem(TipoMovimentacao.ENTRADA);
-        cmbTipoMovimento.addItem(TipoMovimentacao.SAIDA);
-    }
 
+        cmbTipoMovimento.addItem(TipoMovimentacao.ENTRADA);
+        cmbTipoMovimento.addItem(TipoMovimentacao.SAIDA);           
+    }
 }

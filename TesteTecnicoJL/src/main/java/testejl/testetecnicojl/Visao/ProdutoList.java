@@ -6,11 +6,13 @@
 package testejl.testetecnicojl.Visao;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import testejl.testetecnicojl.Modelo.RN.GenericRN;
+import testejl.testetecnicojl.Modelo.VO.MovimentoEstoque;
 import testejl.testetecnicojl.Modelo.VO.Produto;
 
 /**
@@ -18,9 +20,6 @@ import testejl.testetecnicojl.Modelo.VO.Produto;
  * @author Jece Xavier
  */
 public class ProdutoList extends javax.swing.JInternalFrame {
-    
-//    Atributos
-    private Produto produto;
     
     /**
      * Creates new form ProdutoCRUD
@@ -41,7 +40,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         panleFundo = new javax.swing.JPanel();
-        btnSalvar = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProduto = new javax.swing.JTable();
         lblTitulo = new javax.swing.JLabel();
@@ -50,15 +49,15 @@ public class ProdutoList extends javax.swing.JInternalFrame {
 
         panleFundo.setLayout(null);
 
-        btnSalvar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        btnSalvar.setText("Editar");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+        btnEditar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
+                btnEditarActionPerformed(evt);
             }
         });
-        panleFundo.add(btnSalvar);
-        btnSalvar.setBounds(350, 80, 120, 30);
+        panleFundo.add(btnEditar);
+        btnEditar.setBounds(350, 80, 120, 30);
 
         tblProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,7 +83,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblProduto);
 
         panleFundo.add(jScrollPane1);
-        jScrollPane1.setBounds(0, 120, 480, 310);
+        jScrollPane1.setBounds(10, 120, 460, 310);
 
         lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -110,15 +109,13 @@ public class ProdutoList extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblProdutoKeyReleased
 
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if(tblProduto.getSelectedRow()!= -1){
             long id = (long) tblProduto.getValueAt(tblProduto.getSelectedRow(), 0);
-            String descricao = (String) tblProduto.getValueAt(tblProduto.getSelectedRow(), 1);
-            int quantidadeMinima = (int) tblProduto.getValueAt(tblProduto.getSelectedRow(), 2);
-            double valor = (double) tblProduto.getValueAt(tblProduto.getSelectedRow(), 3);
-            LocalDate dataCadastro = (LocalDate) tblProduto.getValueAt(tblProduto.getSelectedRow(), 4); 
+
+            GenericRN<Produto>  produtoDAO = new GenericRN<>();
             
-            produto = new Produto(id, descricao, quantidadeMinima, dataCadastro, valor);
+            Produto produto = produtoDAO.findOne("id", id, Produto.class);
             
             ProdutoCRUD produtoCRUD = new ProdutoCRUD("Editar", produto, false);
             this.getDesktopPane().add(produtoCRUD);
@@ -126,13 +123,13 @@ public class ProdutoList extends javax.swing.JInternalFrame {
             this.dispose();
 
         }else{
-            JOptionPane.showMessageDialog(null, "Nenhum Produto Selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nenhum produto selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnSalvarActionPerformed
+    }//GEN-LAST:event_btnEditarActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnEditar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panleFundo;
@@ -143,7 +140,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
     private void populaJtable(){
         DefaultTableModel modelo = (DefaultTableModel)(tblProduto.getModel());
         GenericRN<Produto>  produtoDAO = new GenericRN<>();
-        
+        DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
         for(Produto p : produtoDAO.listAll(Produto.class)){
             modelo.addRow(new Object[] {
@@ -151,7 +148,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
                 p.getDrescricao(),
                 p.getQuatidadeMinima(),
                 p.getValor(),
-                p.getDataCadastro()
+                p.getDataCadastro().format(formatadordDataBarra)
             });
             
         }

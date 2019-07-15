@@ -5,6 +5,9 @@
  */
 package testejl.testetecnicojl.Visao;
 
+import testejl.testetecnicojl.Modelo.RN.GenericRN;
+import testejl.testetecnicojl.Modelo.VO.Produto;
+
 /**
  *
  * @author Jece Xavier
@@ -16,6 +19,8 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
+        
+//        this.validacao();
     }
 
     /**
@@ -201,4 +206,15 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmbiProdutoEditar;
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables
+    
+    /*Minhas funções*/
+    private void validacao(){
+         GenericRN<Produto> produdoRN =new GenericRN<>();
+         
+         if((produdoRN.listAll(Produto.class)).size() == 0){
+             this.jmbiEstoqueEntrada.setEnabled(false);
+         }
+         
+    }
+
 }

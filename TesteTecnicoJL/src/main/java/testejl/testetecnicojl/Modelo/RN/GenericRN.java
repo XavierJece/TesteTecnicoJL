@@ -46,6 +46,10 @@ public class GenericRN<T> {
         return (T) genericDAO.listOne(pkName, pkValue, clazz);
     }
     
+    public  T findOne(String pkName, long pkValue, Class clazz){
+        return (T) genericDAO.listOne(pkName, pkValue, clazz);
+    }
+    
     public  T findOne(String pkName, String pkValue, Class clazz, String pkName2, String pkValue2){
         return (T) genericDAO.listOne(pkName, pkValue, clazz, pkName2, pkValue2);
     }

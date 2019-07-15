@@ -15,7 +15,7 @@ public interface GenericDAO<T> {
     
     boolean save(T objeto);
     
-    T listOne(String pkName, int pkValue, Class clazz);
+    T listOne(String pkName, long pkValue, Class clazz);
     
     T listOne(String pkName, String pkValue, Class clazz);
     

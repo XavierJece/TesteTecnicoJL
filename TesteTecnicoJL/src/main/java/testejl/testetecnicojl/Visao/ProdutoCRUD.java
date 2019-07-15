@@ -6,6 +6,7 @@
 package testejl.testetecnicojl.Visao;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import testejl.testetecnicojl.Modelo.RN.GenericRN;
 import testejl.testetecnicojl.Modelo.VO.Produto;
@@ -205,7 +206,10 @@ public class ProdutoCRUD extends javax.swing.JInternalFrame {
     
     private void populaCampos(){
         txtCodigo.setText(String.valueOf(produto.getId()));
-        txtDataCasdastro.setText(String.valueOf(produto.getDataCadastro()));
+        
+        DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        txtDataCasdastro.setText(produto.getDataCadastro().format(formatadordDataBarra));
+        
         txtDescricao.setText(produto.getDrescricao());
         txtQuantidadeMinima.setText(String.valueOf(produto.getQuatidadeMinima()));
         txtValor.setText(String.valueOf(produto.getValor()));
