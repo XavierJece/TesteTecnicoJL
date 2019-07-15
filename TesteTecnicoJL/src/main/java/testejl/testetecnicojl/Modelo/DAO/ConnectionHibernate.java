@@ -14,7 +14,7 @@ public class ConnectionHibernate {
         if (manager == null){
             synchronized (ConnectionHibernate.class){
                 if (manager == null){
-                factory = Persistence.createEntityManagerFactory("TesteJL_TesteTecnicoJL_jar_1.0-SNAPSHOTPU");
+                factory = Persistence.createEntityManagerFactory("POOII.utfpr_Memory-Game_jar_1.0-SNAPSHOTPU");
                 manager = factory.createEntityManager();
                 }
             }
