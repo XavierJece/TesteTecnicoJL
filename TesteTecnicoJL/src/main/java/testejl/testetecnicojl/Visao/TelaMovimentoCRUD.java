@@ -96,12 +96,12 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
             }
         });
         panelFundo.add(btnSalvar);
-        btnSalvar.setBounds(330, 380, 140, 40);
+        btnSalvar.setBounds(430, 480, 140, 40);
 
         lblTipoMovimento.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblTipoMovimento.setText("Tipo Movimentação:");
         panelFundo.add(lblTipoMovimento);
-        lblTipoMovimento.setBounds(300, 180, 160, 30);
+        lblTipoMovimento.setBounds(370, 290, 160, 30);
 
         lblDataCadastro.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblDataCadastro.setText("Data de Cadastro:");
@@ -110,29 +110,35 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
 
         cmbTipoMovimento.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         panelFundo.add(cmbTipoMovimento);
-        cmbTipoMovimento.setBounds(260, 220, 200, 30);
+        cmbTipoMovimento.setBounds(370, 320, 200, 40);
 
         lblProduto.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblProduto.setText("Produto:");
         panelFundo.add(lblProduto);
-        lblProduto.setBounds(20, 190, 140, 20);
+        lblProduto.setBounds(370, 130, 140, 30);
 
         lblQuantidade1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblQuantidade1.setText("Quantidade: ");
         panelFundo.add(lblQuantidade1);
-        lblQuantidade1.setBounds(20, 270, 140, 20);
+        lblQuantidade1.setBounds(20, 270, 140, 40);
 
         cmbProduto.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         panelFundo.add(cmbProduto);
-        cmbProduto.setBounds(20, 220, 200, 30);
+        cmbProduto.setBounds(370, 160, 200, 40);
 
         txtQuantidade.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        txtQuantidade.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtQuantidade.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtQuantidadeFocusLost(evt);
+            }
+        });
         panelFundo.add(txtQuantidade);
-        txtQuantidade.setBounds(20, 300, 210, 30);
+        txtQuantidade.setBounds(20, 310, 210, 40);
 
         jdcData.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         panelFundo.add(jdcData);
-        jdcData.setBounds(20, 140, 200, 40);
+        jdcData.setBounds(20, 160, 200, 40);
 
         btnFechar.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         btnFechar.setText("Fechar");
@@ -142,20 +148,20 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
             }
         });
         panelFundo.add(btnFechar);
-        btnFechar.setBounds(400, 10, 70, 23);
+        btnFechar.setBounds(490, 10, 70, 23);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+            .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 500, 470);
+        setBounds(0, 0, 600, 570);
     }// </editor-fold>//GEN-END:initComponents
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -182,6 +188,7 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
                 }
                 
             }else{
+                this.movimento.setQuantidade(quatidade);
                 this.movimento.setDataMovimento(dataMovimentacao);
                 this.movimento.setProduto(prduto);
                 this.movimento.setTipoMovimento(tm);
@@ -209,6 +216,12 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
         this.setVisible(false);
         this.limpaCampos();
     }//GEN-LAST:event_btnFecharActionPerformed
+
+    private void txtQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantidadeFocusLost
+        String quatidade = this.txtQuantidade.getText();
+        quatidade = quatidade.replace("-", "");
+        this.txtQuantidade.setText(quatidade);
+    }//GEN-LAST:event_txtQuantidadeFocusLost
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -273,9 +286,13 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
     
     private void limpaCampos(){
         this.jdcData.setDate(localDateToDate(LocalDate.now()));
-        this.cmbProduto.setSelectedIndex(0);
         this.cmbTipoMovimento.setSelectedIndex(0);
         this.txtQuantidade.setText("");
+        
+        if(this.cmbProduto.getItemCount() != 0){
+            this.cmbProduto.setSelectedIndex(0);
+        
+        }
         
     }
     

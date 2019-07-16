@@ -58,7 +58,7 @@ public class TelaMovimentoList extends javax.swing.JInternalFrame {
             }
         });
         panleFundo.add(btnFechar);
-        btnFechar.setBounds(400, 10, 70, 23);
+        btnFechar.setBounds(500, 10, 70, 23);
 
         btnEditar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         btnEditar.setText("Editar");
@@ -74,7 +74,7 @@ public class TelaMovimentoList extends javax.swing.JInternalFrame {
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo.setText("Lista de Movimentação");
         panleFundo.add(lblTitulo);
-        lblTitulo.setBounds(0, 10, 480, 60);
+        lblTitulo.setBounds(0, 10, 580, 60);
 
         tblMoviento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -100,20 +100,20 @@ public class TelaMovimentoList extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblMoviento);
 
         panleFundo.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 120, 460, 310);
+        jScrollPane1.setBounds(10, 120, 560, 400);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 500, 470);
+        setBounds(0, 0, 600, 570);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblMovientoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblMovientoKeyReleased
@@ -124,9 +124,9 @@ public class TelaMovimentoList extends javax.swing.JInternalFrame {
         if(tblMoviento.getSelectedRow()!= -1){
             long id = (long) tblMoviento.getValueAt(tblMoviento.getSelectedRow(), 0);
             
-            GenericRN<MovimentoEstoque>  movimentoDAO = new GenericRN<>();
+            GenericRN<MovimentoEstoque>  movimentoRN = new GenericRN<>();
             
-            MovimentoEstoque movimento = movimentoDAO.findOne("id", id, MovimentoEstoque.class);
+            MovimentoEstoque movimento = movimentoRN.findOne("id", id, MovimentoEstoque.class);
             this.abrirTelaEdicao(movimento);
         }else{
             JOptionPane.showMessageDialog(null, "Nenhum movimento selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
@@ -151,10 +151,10 @@ public class TelaMovimentoList extends javax.swing.JInternalFrame {
     public void populaJtable(){
         DefaultTableModel modelo = (DefaultTableModel)(tblMoviento.getModel());
         modelo.setNumRows(0);
-        GenericRN<MovimentoEstoque>  movimentoDAO = new GenericRN<>();
+        GenericRN<MovimentoEstoque>  movimentoRN = new GenericRN<>();
         DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
-        for(MovimentoEstoque m : movimentoDAO.listAll(MovimentoEstoque.class)){
+        for(MovimentoEstoque m : movimentoRN.listAll(MovimentoEstoque.class)){
             modelo.addRow(new Object[] {
                 m.getId(),
                 m.getProduto(),

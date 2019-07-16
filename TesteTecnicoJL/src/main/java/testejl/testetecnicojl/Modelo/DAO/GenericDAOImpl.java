@@ -47,7 +47,6 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             
             return (T) obj;
         } catch (Exception e) {
-            ConnectionHibernate.close();
             JOptionPane.showMessageDialog(null, "ERROR: " + e);
         }
         

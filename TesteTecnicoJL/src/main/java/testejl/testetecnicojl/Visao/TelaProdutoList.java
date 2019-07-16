@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package testejl.testetecnicojl.Visao;
 
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -21,18 +19,20 @@ import testejl.testetecnicojl.Modelo.VO.Produto;
  */
 public class TelaProdutoList extends javax.swing.JInternalFrame {
     
-    private TelaMovimentoCRUD tmc;
+//    Atributos
+    private TelaProdutoCRUD tpc;
     
     /**
-     * Creates new form TelaProdutoCRUD
+     * Creates new form ProdutoCRUD
      */
-    public TelaProdutoList() {
+    public TelaProdutoList(TelaProdutoCRUD tpc ) {
         initComponents();
         
-        this.tmc = tmc;
+        this.tpc = tpc;
         
         this.populaJtable();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,31 +44,49 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         panleFundo = new javax.swing.JPanel();
-        btnEditar = new javax.swing.JButton();
+        btnFechar = new javax.swing.JButton();
+        btnPesquisar = new javax.swing.JButton();
+        lblTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProduto = new javax.swing.JTable();
-        lblTitulo = new javax.swing.JLabel();
-
-        setClosable(true);
+        txtPesquisar = new javax.swing.JTextField();
+        btnEditar = new javax.swing.JButton();
+        lblPesquisa = new javax.swing.JLabel();
 
         panleFundo.setLayout(null);
 
-        btnEditar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        btnEditar.setText("Editar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+        btnFechar.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
+                btnFecharActionPerformed(evt);
             }
         });
-        panleFundo.add(btnEditar);
-        btnEditar.setBounds(350, 80, 120, 30);
+        panleFundo.add(btnFechar);
+        btnFechar.setBounds(500, 10, 70, 23);
+
+        btnPesquisar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
+        panleFundo.add(btnPesquisar);
+        btnPesquisar.setBounds(460, 100, 110, 30);
+
+        lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Lista de Produtos");
+        panleFundo.add(lblTitulo);
+        lblTitulo.setBounds(0, 10, 590, 60);
 
         tblProduto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Descrição", "Quantidade Minima", "Valor", "Cadastrado em"
+                "ID", "Descrição", "Qtd.Minima", "Valor ", "Data Cadastrada"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -87,71 +105,93 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tblProduto);
 
         panleFundo.add(jScrollPane1);
-        jScrollPane1.setBounds(10, 120, 460, 310);
+        jScrollPane1.setBounds(10, 140, 560, 380);
 
-        lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Lista de Produtos");
-        panleFundo.add(lblTitulo);
-        lblTitulo.setBounds(0, 10, 480, 60);
+        txtPesquisar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        panleFundo.add(txtPesquisar);
+        txtPesquisar.setBounds(240, 100, 210, 30);
+
+        btnEditar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        panleFundo.add(btnEditar);
+        btnEditar.setBounds(10, 100, 90, 30);
+
+        lblPesquisa.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        lblPesquisa.setText("Pesquisar por descrição...");
+        panleFundo.add(lblPesquisa);
+        lblPesquisa.setBounds(240, 70, 220, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panleFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
         );
 
-        setBounds(0, 0, 500, 470);
+        setBounds(0, 0, 601, 570);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblProdutoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblProdutoKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_tblProdutoKeyReleased
 
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnFecharActionPerformed
+
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        if(tblProduto.getSelectedRow()!= -1){
-            long id = (long) tblProduto.getValueAt(tblProduto.getSelectedRow(), 0);
-
-            GenericRN<Produto>  produtoDAO = new GenericRN<>();
+       if(this.tblProduto.getSelectedRow()!= -1){
+            long id = (long) this.tblProduto.getValueAt(this.tblProduto.getSelectedRow(), 0);
             
-            Produto produto = produtoDAO.findOne("id", id, Produto.class);
+            GenericRN<Produto> produtoRN = new GenericRN<>();
             
-            TelaProdutoCRUD produtoCRUD = new TelaProdutoCRUD("Editar", produto, false);
-            this.getDesktopPane().add(produtoCRUD);
-            produtoCRUD.setVisible(true);
-            this.dispose();
-
+            Produto produto = produtoRN.findOne("id", id, Produto.class);
+            this.abrirTelaEdicao(produto);
         }else{
-            JOptionPane.showMessageDialog(null, "Nenhum produto selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nenhum movimento selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnFechar;
+    private javax.swing.JButton btnPesquisar;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblPesquisa;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panleFundo;
     private javax.swing.JTable tblProduto;
+    private javax.swing.JTextField txtPesquisar;
     // End of variables declaration//GEN-END:variables
     
     /*Minhas Funções*/
     public void populaJtable(){
         DefaultTableModel modelo = (DefaultTableModel)(tblProduto.getModel());
-        GenericRN<Produto>  produtoDAO = new GenericRN<>();
+        modelo.setNumRows(0);
+        GenericRN<Produto>  produtoRN = new GenericRN<>();
         DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         
-        for(Produto p : produtoDAO.listAll(Produto.class)){
+        for(Produto p : produtoRN.listAll(Produto.class)){
             modelo.addRow(new Object[] {
                 p.getId(),
-                p.getDrescricao(),
+                p.getDescricao(),
                 p.getQuatidadeMinima(),
-                p.getValor(),
+                nf.format(p.getValor()),
                 p.getDataCadastro().format(formatadordDataBarra)
             });
             
@@ -162,4 +202,12 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
         
     }
 
+    
+    private void abrirTelaEdicao(Produto p){
+        this.tpc.populaCampos(p);
+        this.tpc.setTelaCadastro(false);
+        this.tpc.apresentaCampos();
+        this.tpc.setVisible(true);
+        this.setVisible(false);
+    }
 }

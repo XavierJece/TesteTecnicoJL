@@ -27,7 +27,7 @@ public class Produto {
     private long id;
     
     @Column(unique = true, nullable = false)
-    private String drescricao;
+    private String descricao;
     
     @Column(name = "quantidade_minima", nullable = false)
     private int quatidadeMinima;
@@ -46,16 +46,16 @@ public class Produto {
     public Produto() {
     }
     
-    public Produto(String drescricao, int quatidadeMinima, LocalDate dataCadastro, double valor) {
-        this.drescricao = drescricao;
+    public Produto(String descricao, int quatidadeMinima, LocalDate dataCadastro, double valor) {
+        this.descricao = descricao;
         this.quatidadeMinima = quatidadeMinima;
         this.dataCadastro = dataCadastro;
         this.valor = valor;
     }
 
-    public Produto(long id, String drescricao, int quatidadeMinima, LocalDate dataCadastro, double valor) {
+    public Produto(long id, String descricao, int quatidadeMinima, LocalDate dataCadastro, double valor) {
         this.id = id;
-        this.drescricao = drescricao;
+        this.descricao = descricao;
         this.quatidadeMinima = quatidadeMinima;
         this.dataCadastro = dataCadastro;
         this.valor = valor;
@@ -73,12 +73,12 @@ public class Produto {
         this.id = id;
     }
 
-    public String getDrescricao() {
-        return drescricao;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDrescricao(String drescricao) {
-        this.drescricao = drescricao;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public int getQuatidadeMinima() {
@@ -115,7 +115,7 @@ public class Produto {
 
     @Override
     public String toString() {
-        return getDrescricao();
+        return getDescricao();
     }
     
     

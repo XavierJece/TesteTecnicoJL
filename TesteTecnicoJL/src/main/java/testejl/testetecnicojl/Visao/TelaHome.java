@@ -15,7 +15,9 @@ public class TelaHome extends javax.swing.JFrame {
     
     /*Atributos*/
     TelaMovimentoCRUD tmc;
-    TelaMovimentoList tml; 
+    TelaMovimentoList tml;
+    TelaProdutoCRUD tpc;
+    TelaProdutoList tpl;
     
     
     /**
@@ -57,17 +59,17 @@ public class TelaHome extends javax.swing.JFrame {
         jdkpHome.setLayout(jdkpHomeLayout);
         jdkpHomeLayout.setHorizontalGroup(
             jdkpHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
         jdkpHomeLayout.setVerticalGroup(
             jdkpHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGap(0, 570, Short.MAX_VALUE)
         );
 
         panelPrincipal.add(jdkpHome);
-        jdkpHome.setBounds(0, 0, 500, 470);
+        jdkpHome.setBounds(0, 0, 600, 570);
 
-        getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 480));
+        getContentPane().add(panelPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 600, 570));
 
         jmbProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProduto.png"))); // NOI18N
         jmbProduto.setText("Produtos");
@@ -140,11 +142,14 @@ public class TelaHome extends javax.swing.JFrame {
     }//GEN-LAST:event_jmbiProdutoListaMouseClicked
 
     private void jmbiProdutoCadastarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoCadastarActionPerformed
-        
+        this.jdkpHome.setVisible(true);
+        this.tpc.setVisible(true);
+        this.tpc.setTelaCadastro(true);        
     }//GEN-LAST:event_jmbiProdutoCadastarActionPerformed
 
     private void jmbiProdutoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoListaActionPerformed
-        
+        this.jdkpHome.setVisible(true);
+        this.tpl.setVisible(true);
     }//GEN-LAST:event_jmbiProdutoListaActionPerformed
 
     private void jmbiMovimentoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiMovimentoCadastroActionPerformed
@@ -213,14 +218,21 @@ public class TelaHome extends javax.swing.JFrame {
         this.tml = new TelaMovimentoList(this.tmc);
         this.tmc.setTml(tml);
         
+        this.tpc = new TelaProdutoCRUD("Cadastro", true);
+        this.tpl = new TelaProdutoList(this.tpc);
+        this.tpc.setTml(tpl);
+        
 //        Adicionando as telas do jdkpHome
         this.jdkpHome.add(tmc);
         this.jdkpHome.add(tml);
-        
+        this.jdkpHome.add(tpc);
+        this.jdkpHome.add(tpl);
         
         this.jdkpHome.setVisible(false);
         this.tmc.setVisible(false);
         this.tml.setVisible(false);
+        this.tpc.setVisible(false);
+        this.tpl.setVisible(false);
     }
 
 }
