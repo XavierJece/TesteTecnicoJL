@@ -179,6 +179,8 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        System.out.println("Valor: " + converteValor());
+         converteValor();
         if(this.validarCampos()){
           
 //            Lendo os dados inseridos;
@@ -218,7 +220,7 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
             }
             
         }else{
-            JOptionPane.showMessageDialog(null, "Dados Invalidos :(", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Dados Ivalidos! :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -279,14 +281,24 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
     }
     
     private double converteValor(){
-        String vd = this.txtValor.getText();
+        String vd = txtValor.getText();
         String vdf = vd.replace("R$", "").replace(" ", "").replace(".", "").replace(",", ".").replace("-", "");
+        
+        try{
+            Double.parseDouble(vdf);
+        }catch(Exception e){
+            vdf = "0";
+        }
+        
         double valor = Double.parseDouble(vdf);
         NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         String vf = nf.format(valor);
         this.txtValor.setText(vf);
-        
+
         return valor;
+        
+        
+        
     }
     
     private void limpaCampos(){

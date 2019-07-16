@@ -6,6 +6,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -161,7 +162,7 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
             Produto produto = produtoRN.findOne("id", id, Produto.class);
             this.abrirTelaEdicao(produto);
         }else{
-            JOptionPane.showMessageDialog(null, "Nenhum movimento selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(null, "Nenhum JOptionPanemovimento selecionado :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 

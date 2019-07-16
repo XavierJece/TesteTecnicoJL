@@ -6,9 +6,10 @@
 package testejl.testetecnicojl.Modelo.DAO;
 
 import java.util.List;
-import static javafx.scene.input.KeyCode.T;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.Query;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,9 +32,12 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             manager.getTransaction().commit();
             
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERROR: " + e);
+        } catch (PersistenceException e) {
+            JOptionPane.showMessageDialog(null, "Erro!\n Dado já cadastrado.", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
             return false;
+        }catch (Exception e){
+             JOptionPane.showMessageDialog(null, "Erro: \n " + e, "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
+              return false;
         }
     }
 
@@ -88,9 +92,12 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             manager.getTransaction().begin();
             manager.merge(objeto);
             manager.getTransaction().commit();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Erro: " + e, "ERRO :(", JOptionPane.ERROR_MESSAGE);
+        } catch (PersistenceException e) {
+            JOptionPane.showMessageDialog(null, "Erro!\n Dado já cadastrado.", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
             return false;
+        }catch (Exception e){
+             JOptionPane.showMessageDialog(null, "Erro: \n " + e, "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
+              return false;
         }
         return true;
     }

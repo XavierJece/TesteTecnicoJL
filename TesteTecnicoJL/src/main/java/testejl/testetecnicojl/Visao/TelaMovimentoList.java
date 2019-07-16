@@ -2,14 +2,13 @@
 
 package testejl.testetecnicojl.Visao;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import testejl.testetecnicojl.Modelo.RN.GenericRN;
 import testejl.testetecnicojl.Modelo.VO.MovimentoEstoque;
-import testejl.testetecnicojl.Modelo.VO.Produto;
 
 /**
  *
@@ -129,7 +128,7 @@ public class TelaMovimentoList extends javax.swing.JInternalFrame {
             MovimentoEstoque movimento = movimentoRN.findOne("id", id, MovimentoEstoque.class);
             this.abrirTelaEdicao(movimento);
         }else{
-            JOptionPane.showMessageDialog(null, "Nenhum movimento selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Nenhum JOptionPanemovimento selecionado :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 

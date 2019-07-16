@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import javafx.util.converter.LocalDateStringConverter;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import testejl.testetecnicojl.Modelo.RN.GenericRN;
 import testejl.testetecnicojl.Modelo.VO.MovimentoEstoque;
@@ -180,11 +180,12 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
                 this.movimento = new MovimentoEstoque(prduto, dataMovimentacao, quatidade, tm);
                 
                 if(movitementoRN.save(this.movimento)){
-                    JOptionPane.showMessageDialog(null, "Cadastrado com sucesso :)", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Cadastrado com sucesso", "Sucesso :)", 0,new ImageIcon(getClass().getResource("/icones/sucesso.png")));
+        
                     this.limpaCampos();
                     this.tml.populaJtable();
                 }else{
-                    JOptionPane.showMessageDialog(null, "Erro ao salvar :(", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro ao cadastrar", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
                 }
                 
             }else{
@@ -194,17 +195,17 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
                 this.movimento.setTipoMovimento(tm);
                 
                 if(movitementoRN.update(this.movimento)){
-                    JOptionPane.showMessageDialog(null, "Editado com sucesso :)", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Editado com sucesso", "Sucesso :)", 0,new ImageIcon(getClass().getResource("/icones/sucesso.png")));
                     this.tml.populaJtable();
                     this.tml.setVisible(true);
                     this.setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Erro ao etidar :(", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro ao editar", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
                 }
             }
             
         }else{
-            JOptionPane.showMessageDialog(null, "Dados Invalidos :(", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Dados Ivalidos\n\n :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
