@@ -5,11 +5,11 @@
  */
 package testejl.testetecnicojl.Visao;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.Date;
+import javafx.util.converter.LocalDateStringConverter;
 import javax.swing.JOptionPane;
 import testejl.testetecnicojl.Modelo.RN.GenericRN;
 import testejl.testetecnicojl.Modelo.VO.MovimentoEstoque;
@@ -20,21 +20,23 @@ import testejl.testetecnicojl.Modelo.VO.TipoMovimentacao;
  *
  * @author Jece Xavier
  */
-public class MovimentoCRUD extends javax.swing.JInternalFrame {
+public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
     
 //    Atributos
     private MovimentoEstoque movimento;
     private boolean telaCadastro;
-
+    private TelaMovimentoList tml;
     
-    public MovimentoCRUD(String titulo, boolean telaCadastro ) {
+//    Construtor
+    public TelaMovimentoCRUD(String titulo, boolean telaCadastro) {
         initComponents();
         
         this.telaCadastro = telaCadastro;
-        
         this.setTitle(titulo);
+        this.tml = tml;
 
         this.populaCmb();
+        this.limpaCampos();
         
         if(telaCadastro){
             this.lblCodigo.setVisible(false);
@@ -42,24 +44,6 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         }
     }
     
-    public MovimentoCRUD(String titulo, boolean telaCadastro, MovimentoEstoque movimento) {
-        initComponents();
-        
-        this.telaCadastro = telaCadastro;
-        
-        this.setTitle(titulo);
-        
-        this.movimento = movimento;
-        
-        this.populaCmb();
-        
-        this.populaCampos();
-
-        if(telaCadastro){
-            this.lblCodigo.setVisible(false);
-            this.txtCodigo.setVisible(false);
-        }
-    }
     
 
     /**
@@ -79,24 +63,30 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         lblDataCadastro = new javax.swing.JLabel();
         cmbTipoMovimento = new javax.swing.JComboBox<Object>();
         lblProduto = new javax.swing.JLabel();
-        txtData = new javax.swing.JFormattedTextField();
         lblQuantidade1 = new javax.swing.JLabel();
         cmbProduto = new javax.swing.JComboBox<Object>();
         txtQuantidade = new javax.swing.JFormattedTextField();
+        jdcData = new com.toedter.calendar.JDateChooser();
+        btnFechar = new javax.swing.JButton();
 
-        setClosable(true);
+        setToolTipText("");
 
         panelFundo.setLayout(null);
 
         lblCodigo.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblCodigo.setText("Código da Movimentação: ");
         panelFundo.add(lblCodigo);
-        lblCodigo.setBounds(230, 20, 200, 20);
+        lblCodigo.setBounds(10, 10, 200, 20);
 
         txtCodigo.setEditable(false);
         txtCodigo.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
         panelFundo.add(txtCodigo);
-        txtCodigo.setBounds(230, 50, 200, 30);
+        txtCodigo.setBounds(10, 40, 200, 30);
 
         btnSalvar.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         btnSalvar.setText("Salvar");
@@ -127,11 +117,6 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         panelFundo.add(lblProduto);
         lblProduto.setBounds(20, 190, 140, 20);
 
-        txtData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-        txtData.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        panelFundo.add(txtData);
-        txtData.setBounds(20, 140, 210, 30);
-
         lblQuantidade1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         lblQuantidade1.setText("Quantidade: ");
         panelFundo.add(lblQuantidade1);
@@ -145,11 +130,25 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         panelFundo.add(txtQuantidade);
         txtQuantidade.setBounds(20, 300, 210, 30);
 
+        jdcData.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        panelFundo.add(jdcData);
+        jdcData.setBounds(20, 140, 200, 40);
+
+        btnFechar.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
+        panelFundo.add(btnFechar);
+        btnFechar.setBounds(400, 10, 70, 23);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelFundo, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,33 +161,38 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if(this.validarCampos()){
             
+//            lendo os dados inseridos
             int quatidade = Integer.parseInt(this.txtQuantidade.getText());
-           
-             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-             String data = txtData.getText();
-             LocalDate dataMovimentacao = LocalDate.parse(data, formatter);
+            LocalDate dataMovimentacao = dateToLocalDate(jdcData.getDate());
+            Produto prduto = (Produto) cmbProduto.getSelectedItem();
+            TipoMovimentacao tm = (TipoMovimentacao) cmbTipoMovimento.getSelectedItem();
             
             GenericRN<MovimentoEstoque> movitementoRN = new GenericRN<>();
             
-            if(telaCadastro){
+            if(this.telaCadastro){
                 
-                this.movimento = new MovimentoEstoque(((Produto) cmbProduto.getSelectedItem()), dataMovimentacao, quatidade, ((TipoMovimentacao) cmbTipoMovimento.getSelectedItem()) );
+                this.movimento = new MovimentoEstoque(prduto, dataMovimentacao, quatidade, tm);
                 
                 if(movitementoRN.save(this.movimento)){
-                    JOptionPane.showMessageDialog(null, "Cadastrado Com Sucesso :)", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Cadastrado com sucesso :)", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    this.limpaCampos();
+                    this.tml.populaJtable();
                 }else{
-                    JOptionPane.showMessageDialog(null, "Erro ao Salvar :(", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro ao salvar :(", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
                 
             }else{
                 this.movimento.setDataMovimento(dataMovimentacao);
-                this.movimento.setProduto(((Produto) cmbProduto.getSelectedItem()));
-                this.movimento.setTipoMovimento(((TipoMovimentacao) cmbTipoMovimento.getSelectedItem()));
+                this.movimento.setProduto(prduto);
+                this.movimento.setTipoMovimento(tm);
                 
                 if(movitementoRN.update(this.movimento)){
-                    JOptionPane.showMessageDialog(null, "Editado Com Sucesso :)", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Editado com sucesso :)", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    this.tml.populaJtable();
+                    this.tml.setVisible(true);
+                    this.setVisible(false);
                 }else{
-                    JOptionPane.showMessageDialog(null, "Erro ao Etidar :(", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro ao etidar :(", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
             
@@ -197,11 +201,22 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.setVisible(false);
+        this.limpaCampos();
+    }//GEN-LAST:event_btnFecharActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFechar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<Object> cmbProduto;
     private javax.swing.JComboBox<Object> cmbTipoMovimento;
+    private com.toedter.calendar.JDateChooser jdcData;
     private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblDataCadastro;
     private javax.swing.JLabel lblProduto;
@@ -209,57 +224,99 @@ public class MovimentoCRUD extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblTipoMovimento;
     private javax.swing.JPanel panelFundo;
     private javax.swing.JTextField txtCodigo;
-    private javax.swing.JFormattedTextField txtData;
     private javax.swing.JFormattedTextField txtQuantidade;
     // End of variables declaration//GEN-END:variables
     
     /*Minhas Funções*/
     private boolean validarCampos(){
-        if ( (txtQuantidade.getText().isEmpty()) || (txtData.getText().isEmpty()) || (cmbProduto.getItemCount() == 0) || (cmbTipoMovimento.getSelectedItem() == null) ) {
+        
+        
+        
+        if ( (this.txtQuantidade.getText().isEmpty()) || (this.cmbProduto.getItemCount() == 0) || (this.cmbTipoMovimento.getSelectedItem() == null) ) {
+            return false;
+        }else if (dateToLocalDate(this.jdcData.getDate()).isAfter(LocalDate.now()) ){
+            return false;
+        }else if (dateToLocalDate(this.jdcData.getDate()).isBefore(LocalDate.of(2000, 01, 01)) ){
             return false;
         }else{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
-            String data = txtData.getText();
-            LocalDate dataMovimentacao = LocalDate.parse(data, formatter);
+            SimpleDateFormat sdff = new SimpleDateFormat("dd/MM/yyyy"); 
+            String data = (sdff.format(this.jdcData.getDate()));
             
-            if(dataMovimentacao.isAfter(LocalDate.now())){
+            int quantidade = Integer.parseInt(this.txtQuantidade.getText());
+            
+            if(data.isEmpty() || data.equals("")){
+                
+            }else if(quantidade <= 0){
                 return false;
             }
-                
             
         }
         return true;
     }
     
-    private void populaCampos(){
-        txtCodigo.setText(String.valueOf(movimento.getId()));
-        txtQuantidade.setText(String.valueOf(movimento.getQuantidade()));
-        cmbProduto.setSelectedItem(movimento.getProduto());      
+    public void populaCampos(MovimentoEstoque m){
+        this.movimento = m;
         
-        DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        txtData.setText(movimento.getDataMovimento().format(formatadordDataBarra));
+        this.txtCodigo.setText(String.valueOf(this.movimento.getId()));
+        this.txtQuantidade.setText(String.valueOf(this.movimento.getQuantidade()));
+        this.cmbProduto.setSelectedItem(this.movimento.getProduto());      
         
+        this.jdcData.setDate(localDateToDate(this.movimento.getDataMovimento()));
 
-        if(movimento.getTipoMovimento().equals(TipoMovimentacao.ENTRADA)){
-            cmbTipoMovimento.setSelectedItem(TipoMovimentacao.ENTRADA);
+        if(this.movimento.getTipoMovimento().equals(TipoMovimentacao.ENTRADA.getMovimentacao())){
+            this.cmbTipoMovimento.setSelectedItem(TipoMovimentacao.ENTRADA);
         }else{
-            cmbTipoMovimento.setSelectedItem(TipoMovimentacao.SAIDA);
+            this.cmbTipoMovimento.setSelectedItem(TipoMovimentacao.SAIDA);
         }
         
-        
+    }
+    
+    private void limpaCampos(){
+        this.jdcData.setDate(localDateToDate(LocalDate.now()));
+        this.cmbProduto.setSelectedIndex(0);
+        this.cmbTipoMovimento.setSelectedIndex(0);
+        this.txtQuantidade.setText("");
         
     }
     
     private void populaCmb(){
         
         GenericRN<Produto> produdoRN =new GenericRN<>();
-
+        
         for (Produto p : produdoRN.listAll(Produto.class)){
 
-            cmbProduto.addItem(p);
+            this.cmbProduto.addItem(p);
         }
 
-        cmbTipoMovimento.addItem(TipoMovimentacao.ENTRADA);
-        cmbTipoMovimento.addItem(TipoMovimentacao.SAIDA);           
+        this.cmbTipoMovimento.addItem(TipoMovimentacao.ENTRADA);
+        this.cmbTipoMovimento.addItem(TipoMovimentacao.SAIDA);           
     }
+    
+    private LocalDate dateToLocalDate(Date d){
+        return d.toInstant().atZone( ZoneId.systemDefault() ).toLocalDate();
+    }
+    
+    private Date localDateToDate(LocalDate d){
+        return Date.from( d.atStartOfDay( ZoneId.systemDefault() ).toInstant() );
+
+    }
+    
+    /*Gets and Sets*/
+
+    public boolean isTelaCadastro() {
+        return telaCadastro;
+    }
+
+    public void setTelaCadastro(boolean telaCadastro) {
+        this.telaCadastro = telaCadastro;
+    }
+
+    public TelaMovimentoList getTml() {
+        return tml;
+    }
+
+    public void setTml(TelaMovimentoList tml) {
+        this.tml = tml;
+    }
+    
 }

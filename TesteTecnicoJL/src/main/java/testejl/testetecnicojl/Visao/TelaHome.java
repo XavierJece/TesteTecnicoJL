@@ -5,22 +5,27 @@
  */
 package testejl.testetecnicojl.Visao;
 
-import testejl.testetecnicojl.Modelo.RN.GenericRN;
-import testejl.testetecnicojl.Modelo.VO.Produto;
+
 
 /**
  *
  * @author Jece Xavier
  */
-public class Home extends javax.swing.JFrame {
-
+public class TelaHome extends javax.swing.JFrame {
+    
+    /*Atributos*/
+    TelaMovimentoCRUD tmc;
+    TelaMovimentoList tml; 
+    
+    
     /**
      * Creates new form Home
      */
-    public Home() {
+    public TelaHome() {
         initComponents();
         
-//        this.validacao();
+        carregandoTelasInternas(); 
+        
     }
 
     /**
@@ -37,18 +42,16 @@ public class Home extends javax.swing.JFrame {
         jmbPrincipal = new javax.swing.JMenuBar();
         jmbProduto = new javax.swing.JMenu();
         jmbiProdutoCadastar = new javax.swing.JMenuItem();
-        jmbiProdutoEditar = new javax.swing.JMenuItem();
+        jmbiProdutoLista = new javax.swing.JMenuItem();
         jmbEstoque = new javax.swing.JMenu();
-        jmbiEstoqueEntrada = new javax.swing.JMenuItem();
-        jmbiEstoqueSaida = new javax.swing.JMenuItem();
+        jmbiMovimentoCadastro = new javax.swing.JMenuItem();
+        jmbiMovimentoLista = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelPrincipal.setLayout(null);
-
-        jdkpHome.setBackground(null);
 
         javax.swing.GroupLayout jdkpHomeLayout = new javax.swing.GroupLayout(jdkpHome);
         jdkpHome.setLayout(jdkpHomeLayout);
@@ -83,42 +86,42 @@ public class Home extends javax.swing.JFrame {
         });
         jmbProduto.add(jmbiProdutoCadastar);
 
-        jmbiProdutoEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoLista.png"))); // NOI18N
-        jmbiProdutoEditar.setText("Lista Produto");
-        jmbiProdutoEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+        jmbiProdutoLista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoLista.png"))); // NOI18N
+        jmbiProdutoLista.setText("Lista Produto");
+        jmbiProdutoLista.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jmbiProdutoEditarMouseClicked(evt);
+                jmbiProdutoListaMouseClicked(evt);
             }
         });
-        jmbiProdutoEditar.addActionListener(new java.awt.event.ActionListener() {
+        jmbiProdutoLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmbiProdutoEditarActionPerformed(evt);
+                jmbiProdutoListaActionPerformed(evt);
             }
         });
-        jmbProduto.add(jmbiProdutoEditar);
+        jmbProduto.add(jmbiProdutoLista);
 
         jmbPrincipal.add(jmbProduto);
 
         jmbEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuEstoque.png"))); // NOI18N
         jmbEstoque.setText("Estoque");
 
-        jmbiEstoqueEntrada.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoCadastro.png"))); // NOI18N
-        jmbiEstoqueEntrada.setText("Cadastrar");
-        jmbiEstoqueEntrada.addActionListener(new java.awt.event.ActionListener() {
+        jmbiMovimentoCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoCadastro.png"))); // NOI18N
+        jmbiMovimentoCadastro.setText("Cadastrar");
+        jmbiMovimentoCadastro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmbiEstoqueEntradaActionPerformed(evt);
+                jmbiMovimentoCadastroActionPerformed(evt);
             }
         });
-        jmbEstoque.add(jmbiEstoqueEntrada);
+        jmbEstoque.add(jmbiMovimentoCadastro);
 
-        jmbiEstoqueSaida.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoLista.png"))); // NOI18N
-        jmbiEstoqueSaida.setText("Listar");
-        jmbiEstoqueSaida.addActionListener(new java.awt.event.ActionListener() {
+        jmbiMovimentoLista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/menuProdutoLista.png"))); // NOI18N
+        jmbiMovimentoLista.setText("Listar");
+        jmbiMovimentoLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmbiEstoqueSaidaActionPerformed(evt);
+                jmbiMovimentoListaActionPerformed(evt);
             }
         });
-        jmbEstoque.add(jmbiEstoqueSaida);
+        jmbEstoque.add(jmbiMovimentoLista);
 
         jmbPrincipal.add(jmbEstoque);
 
@@ -132,33 +135,28 @@ public class Home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jmbiProdutoCadastarMouseClicked
 
-    private void jmbiProdutoEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmbiProdutoEditarMouseClicked
+    private void jmbiProdutoListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmbiProdutoListaMouseClicked
 
-    }//GEN-LAST:event_jmbiProdutoEditarMouseClicked
+    }//GEN-LAST:event_jmbiProdutoListaMouseClicked
 
     private void jmbiProdutoCadastarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoCadastarActionPerformed
-        ProdutoCRUD telaProduto = new ProdutoCRUD("Cadastro", true);
-        this.jdkpHome.add(telaProduto);
-        telaProduto.setVisible(true);
+        
     }//GEN-LAST:event_jmbiProdutoCadastarActionPerformed
 
-    private void jmbiProdutoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoEditarActionPerformed
-        ProdutoList telaProdutoList = new ProdutoList();
-        this.jdkpHome.add(telaProdutoList);
-        telaProdutoList.setVisible(true);
-    }//GEN-LAST:event_jmbiProdutoEditarActionPerformed
+    private void jmbiProdutoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoListaActionPerformed
+        
+    }//GEN-LAST:event_jmbiProdutoListaActionPerformed
 
-    private void jmbiEstoqueEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiEstoqueEntradaActionPerformed
-        MovimentoCRUD telaEstoque = new MovimentoCRUD("Cadastro", true);
-        this.jdkpHome.add(telaEstoque);
-        telaEstoque.setVisible(true);
-    }//GEN-LAST:event_jmbiEstoqueEntradaActionPerformed
+    private void jmbiMovimentoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiMovimentoCadastroActionPerformed
+        this.jdkpHome.setVisible(true);
+        this.tmc.setVisible(true);
+        this.tmc.setTelaCadastro(true);
+    }//GEN-LAST:event_jmbiMovimentoCadastroActionPerformed
 
-    private void jmbiEstoqueSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiEstoqueSaidaActionPerformed
-        MovimentoList telaMovimentoList = new MovimentoList();
-        this.jdkpHome.add(telaMovimentoList);
-        telaMovimentoList.setVisible(true);
-    }//GEN-LAST:event_jmbiEstoqueSaidaActionPerformed
+    private void jmbiMovimentoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiMovimentoListaActionPerformed
+        this.jdkpHome.setVisible(true);
+        this.tml.setVisible(true);
+    }//GEN-LAST:event_jmbiMovimentoListaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -177,20 +175,21 @@ public class Home extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaHome.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Home().setVisible(true);
+                new TelaHome().setVisible(true);
             }
         });
     }
@@ -200,21 +199,28 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu jmbEstoque;
     private javax.swing.JMenuBar jmbPrincipal;
     private javax.swing.JMenu jmbProduto;
-    private javax.swing.JMenuItem jmbiEstoqueEntrada;
-    private javax.swing.JMenuItem jmbiEstoqueSaida;
+    private javax.swing.JMenuItem jmbiMovimentoCadastro;
+    private javax.swing.JMenuItem jmbiMovimentoLista;
     private javax.swing.JMenuItem jmbiProdutoCadastar;
-    private javax.swing.JMenuItem jmbiProdutoEditar;
+    private javax.swing.JMenuItem jmbiProdutoLista;
     private javax.swing.JPanel panelPrincipal;
     // End of variables declaration//GEN-END:variables
     
     /*Minhas funções*/
-    private void validacao(){
-         GenericRN<Produto> produdoRN =new GenericRN<>();
-         
-         if((produdoRN.listAll(Produto.class)).size() == 0){
-             this.jmbiEstoqueEntrada.setEnabled(false);
-         }
-         
+    private void carregandoTelasInternas(){
+//        Instanciando as telas internas
+        this.tmc = new TelaMovimentoCRUD("Cadastro", true);
+        this.tml = new TelaMovimentoList(this.tmc);
+        this.tmc.setTml(tml);
+        
+//        Adicionando as telas do jdkpHome
+        this.jdkpHome.add(tmc);
+        this.jdkpHome.add(tml);
+        
+        
+        this.jdkpHome.setVisible(false);
+        this.tmc.setVisible(false);
+        this.tml.setVisible(false);
     }
 
 }

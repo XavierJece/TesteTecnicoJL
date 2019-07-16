@@ -26,14 +26,17 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
+    @Column(unique = true, nullable = false)
     private String drescricao;
     
-    @Column(name = "quantidade_minima")
+    @Column(name = "quantidade_minima", nullable = false)
     private int quatidadeMinima;
     
-    @Column (name = "data_cadastro")
+    @Column (name = "data_cadastro", nullable
+            = false)
     private LocalDate dataCadastro;
     
+    @Column(nullable = false)
     private double valor;
     
     @OneToMany(mappedBy = "produto", orphanRemoval = false, cascade = CascadeType.PERSIST)

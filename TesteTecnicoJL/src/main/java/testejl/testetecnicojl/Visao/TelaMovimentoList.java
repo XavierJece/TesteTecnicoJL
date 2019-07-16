@@ -15,18 +15,22 @@ import testejl.testetecnicojl.Modelo.VO.Produto;
  *
  * @author Jece Xavier
  */
-public class MovimentoList extends javax.swing.JInternalFrame {
+public class TelaMovimentoList extends javax.swing.JInternalFrame {
     
 //    Atributos
+    private TelaMovimentoCRUD tmc;
     
     /**
      * Creates new form ProdutoCRUD
      */
-    public MovimentoList( ) {
+    public TelaMovimentoList(TelaMovimentoCRUD tmc ) {
         initComponents();
+        
+        this.tmc = tmc;
         
         this.populaJtable();
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,14 +42,23 @@ public class MovimentoList extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         panleFundo = new javax.swing.JPanel();
+        btnFechar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
+        lblTitulo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMoviento = new javax.swing.JTable();
-        lblTitulo = new javax.swing.JLabel();
-
-        setClosable(true);
 
         panleFundo.setLayout(null);
+
+        btnFechar.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        btnFechar.setText("Fechar");
+        btnFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFecharActionPerformed(evt);
+            }
+        });
+        panleFundo.add(btnFechar);
+        btnFechar.setBounds(400, 10, 70, 23);
 
         btnEditar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         btnEditar.setText("Editar");
@@ -55,7 +68,13 @@ public class MovimentoList extends javax.swing.JInternalFrame {
             }
         });
         panleFundo.add(btnEditar);
-        btnEditar.setBounds(350, 80, 120, 30);
+        btnEditar.setBounds(10, 80, 120, 30);
+
+        lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTitulo.setText("Lista de Movimentação");
+        panleFundo.add(lblTitulo);
+        lblTitulo.setBounds(0, 10, 480, 60);
 
         tblMoviento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,12 +102,6 @@ public class MovimentoList extends javax.swing.JInternalFrame {
         panleFundo.add(jScrollPane1);
         jScrollPane1.setBounds(10, 120, 460, 310);
 
-        lblTitulo.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitulo.setText("Lista de Movimentação");
-        panleFundo.add(lblTitulo);
-        lblTitulo.setBounds(0, 10, 480, 60);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,20 +127,20 @@ public class MovimentoList extends javax.swing.JInternalFrame {
             GenericRN<MovimentoEstoque>  movimentoDAO = new GenericRN<>();
             
             MovimentoEstoque movimento = movimentoDAO.findOne("id", id, MovimentoEstoque.class);
-            
-            MovimentoCRUD movimentoCRUD = new MovimentoCRUD("Editar", false, movimento);
-            this.getDesktopPane().add(movimentoCRUD);
-            movimentoCRUD.setVisible(true);
-            this.dispose();
-
+            this.abrirTelaEdicao(movimento);
         }else{
             JOptionPane.showMessageDialog(null, "Nenhum movimento selecionado :(", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnFecharActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnFechar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel panleFundo;
@@ -135,8 +148,9 @@ public class MovimentoList extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     
     /*Minhas Funções*/
-    private void populaJtable(){
+    public void populaJtable(){
         DefaultTableModel modelo = (DefaultTableModel)(tblMoviento.getModel());
+        modelo.setNumRows(0);
         GenericRN<MovimentoEstoque>  movimentoDAO = new GenericRN<>();
         DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         
@@ -144,7 +158,7 @@ public class MovimentoList extends javax.swing.JInternalFrame {
             modelo.addRow(new Object[] {
                 m.getId(),
                 m.getProduto(),
-                (int) m.getQuantidade(),
+                m.getQuantidade(),
                 m.getTipoMovimento(),
                 m.getDataMovimento().format(formatadordDataBarra)
             });
@@ -156,4 +170,11 @@ public class MovimentoList extends javax.swing.JInternalFrame {
         
     }
 
+    
+    private void abrirTelaEdicao(MovimentoEstoque m){
+        this.tmc.populaCampos(m);
+        this.tmc.setTelaCadastro(false);
+        this.tmc.setVisible(true);
+        this.setVisible(false);
+    }
 }

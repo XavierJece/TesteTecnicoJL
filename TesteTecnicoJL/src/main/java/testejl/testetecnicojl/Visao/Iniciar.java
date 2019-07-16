@@ -13,7 +13,7 @@ public class Iniciar {
     
     public static void main(String[] args) {
         
-        Home telaHome = new Home();
+        TelaHome telaHome = new TelaHome();
         
         telaHome.setVisible(true);
         

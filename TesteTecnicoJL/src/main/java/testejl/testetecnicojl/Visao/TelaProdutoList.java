@@ -19,13 +19,17 @@ import testejl.testetecnicojl.Modelo.VO.Produto;
  *
  * @author Jece Xavier
  */
-public class ProdutoList extends javax.swing.JInternalFrame {
+public class TelaProdutoList extends javax.swing.JInternalFrame {
+    
+    private TelaMovimentoCRUD tmc;
     
     /**
-     * Creates new form ProdutoCRUD
+     * Creates new form TelaProdutoCRUD
      */
-    public ProdutoList( ) {
+    public TelaProdutoList() {
         initComponents();
+        
+        this.tmc = tmc;
         
         this.populaJtable();
     }
@@ -117,7 +121,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
             
             Produto produto = produtoDAO.findOne("id", id, Produto.class);
             
-            ProdutoCRUD produtoCRUD = new ProdutoCRUD("Editar", produto, false);
+            TelaProdutoCRUD produtoCRUD = new TelaProdutoCRUD("Editar", produto, false);
             this.getDesktopPane().add(produtoCRUD);
             produtoCRUD.setVisible(true);
             this.dispose();
@@ -137,7 +141,7 @@ public class ProdutoList extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
     
     /*Minhas Funções*/
-    private void populaJtable(){
+    public void populaJtable(){
         DefaultTableModel modelo = (DefaultTableModel)(tblProduto.getModel());
         GenericRN<Produto>  produtoDAO = new GenericRN<>();
         DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");

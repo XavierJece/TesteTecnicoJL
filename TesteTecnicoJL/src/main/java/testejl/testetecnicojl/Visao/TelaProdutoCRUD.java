@@ -15,7 +15,7 @@ import testejl.testetecnicojl.Modelo.VO.Produto;
  *
  * @author Jece Xavier
  */
-public class ProdutoCRUD extends javax.swing.JInternalFrame {
+public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
     
 //    Atributos
     private Produto produto;
@@ -24,7 +24,7 @@ public class ProdutoCRUD extends javax.swing.JInternalFrame {
     /**
      * Creates new form ProdutoCRUD
      */
-    public ProdutoCRUD(String titulo, boolean telaCadastro ) {
+    public TelaProdutoCRUD(String titulo, boolean telaCadastro ) {
         initComponents();
         
         this.telaCadastro = telaCadastro;
@@ -36,7 +36,7 @@ public class ProdutoCRUD extends javax.swing.JInternalFrame {
         this.txtCodigo.setVisible(false);
     }
     
-    public ProdutoCRUD( String titulo, Produto p, boolean telaCadastro) {
+    public TelaProdutoCRUD( String titulo, Produto p, boolean telaCadastro) {
         initComponents();
         
         this.produto = p;
