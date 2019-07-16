@@ -109,6 +109,16 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
         jScrollPane1.setBounds(10, 140, 560, 380);
 
         txtPesquisar.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        txtPesquisar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtPesquisarFocusGained(evt);
+            }
+        });
+        txtPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPesquisarKeyReleased(evt);
+            }
+        });
         panleFundo.add(txtPesquisar);
         txtPesquisar.setBounds(240, 100, 210, 30);
 
@@ -146,11 +156,13 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblProdutoKeyReleased
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-
+        this.populaJtable(this.txtPesquisar.getText());
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
         this.setVisible(false);
+        this.txtPesquisar.setText("");
+        this.populaJtable();
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
@@ -165,6 +177,14 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
            JOptionPane.showMessageDialog(null, "Nenhum JOptionPanemovimento selecionado :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void txtPesquisarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPesquisarFocusGained
+        
+    }//GEN-LAST:event_txtPesquisarFocusGained
+
+    private void txtPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyReleased
+        this.populaJtable(this.txtPesquisar.getText());
+    }//GEN-LAST:event_txtPesquisarKeyReleased
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -188,6 +208,29 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
         NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         
         for(Produto p : produtoRN.listAll(Produto.class)){
+            modelo.addRow(new Object[] {
+                p.getId(),
+                p.getDescricao(),
+                p.getQuatidadeMinima(),
+                nf.format(p.getValor()),
+                p.getDataCadastro().format(formatadordDataBarra)
+            });
+            
+        }
+        
+        tblProduto.setRowSorter(new TableRowSorter(modelo));
+        
+        
+    }
+    
+    public void populaJtable(String condicao){
+        DefaultTableModel modelo = (DefaultTableModel)(tblProduto.getModel());
+        modelo.setNumRows(0);
+        GenericRN<Produto>  produtoRN = new GenericRN<>();
+        DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        
+        for(Produto p : produtoRN.listLike(Produto.class, "descricao", condicao)){
             modelo.addRow(new Object[] {
                 p.getId(),
                 p.getDescricao(),

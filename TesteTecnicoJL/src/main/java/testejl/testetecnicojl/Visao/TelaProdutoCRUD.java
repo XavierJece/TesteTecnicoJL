@@ -214,6 +214,7 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
                    this.tpl.populaJtable();
                    this.tpl.setVisible(true);
                    this.setVisible(false);
+                   this.limpaCampos();
                 }else{
                     JOptionPane.showMessageDialog(null, "Erro ao editar", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
                 }

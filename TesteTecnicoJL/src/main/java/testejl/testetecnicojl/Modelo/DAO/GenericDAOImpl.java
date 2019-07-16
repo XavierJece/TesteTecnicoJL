@@ -117,5 +117,16 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
         List<T> obj = query.getResultList();
         return obj;
     }
+
+    @Override
+    public List<T> listLike(Class clazz, String pkName, String pkValue) {
+        
+        String jpql = "SELECT t FROM " + clazz.getTypeName() + " t WHERE  t." + pkName + " LIKE '%" + pkValue + "%'";
+        Query query = manager.createQuery(jpql); 
+//        query.setParameter("condicao", pkValue);
+        
+        List<T> obj = query.getResultList();
+        return obj;
+    }
     
 }

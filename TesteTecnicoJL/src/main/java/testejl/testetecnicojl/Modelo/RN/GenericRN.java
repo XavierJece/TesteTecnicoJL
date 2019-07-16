@@ -54,6 +54,10 @@ public class GenericRN<T> {
         return (T) genericDAO.listOne(pkName, pkValue, clazz, pkName2, pkValue2);
     }
     
+    public List<T> listLike(Class clazz, String pkName, String pkValue) {
+        return genericDAO.listLike(clazz, pkName, pkValue);
+    }
+    
     public boolean update(T objeto){
         return genericDAO.update(objeto);
     }

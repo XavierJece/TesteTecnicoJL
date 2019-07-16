@@ -23,6 +23,8 @@ public interface GenericDAO<T> {
        
     List listAll(Class clazz);
     
+    List listLike(Class clazz, String pkName, String pkValue);
+    
     List listAll(Class clazz, String order, int limite, String column);
     
     boolean update(T objeto);

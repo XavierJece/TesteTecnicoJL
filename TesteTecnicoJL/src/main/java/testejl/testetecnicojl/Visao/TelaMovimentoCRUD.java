@@ -199,6 +199,7 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
                     this.tml.populaJtable();
                     this.tml.setVisible(true);
                     this.setVisible(false);
+                    this.limpaCampos();
                 }else{
                     JOptionPane.showMessageDialog(null, "Erro ao editar", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
                 }
