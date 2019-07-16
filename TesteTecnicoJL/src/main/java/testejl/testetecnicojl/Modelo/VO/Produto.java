@@ -1,6 +1,7 @@
 
 package testejl.testetecnicojl.Modelo.VO;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -11,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import testejl.testetecnicojl.Modelo.DAO.ConnectionHibernate;
+import testejl.testetecnicojl.Modelo.RN.GenericRN;
 
 /**
  *
@@ -42,6 +46,9 @@ public class Produto {
     @OneToMany(mappedBy = "produto", orphanRemoval = false, cascade = CascadeType.PERSIST)
     private List<MovimentoEstoque> movitmentos;         
     
+    @Transient
+    private long quantidade;
+    
 //    Contrutor
     public Produto() {
     }
@@ -51,6 +58,7 @@ public class Produto {
         this.quatidadeMinima = quatidadeMinima;
         this.dataCadastro = dataCadastro;
         this.valor = valor;
+        this.quantidade = 0;
     }
 
     public Produto(long id, String descricao, int quatidadeMinima, LocalDate dataCadastro, double valor) {
@@ -59,6 +67,7 @@ public class Produto {
         this.quatidadeMinima = quatidadeMinima;
         this.dataCadastro = dataCadastro;
         this.valor = valor;
+        this.quantidade = 0;
     }
     
     
@@ -112,6 +121,22 @@ public class Produto {
     public void setMovitmentos(List<MovimentoEstoque> movitmentos) {
         this.movitmentos = movitmentos;
     }
+
+    public long getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade() {
+        GenericRN<MovimentoEstoque> movimentoRN = new GenericRN<>();
+        
+        long entrada = movimentoRN.soma(TipoMovimentacao.ENTRADA, this);
+        long saida = movimentoRN.soma(TipoMovimentacao.SAIDA, this);
+        
+        this.quantidade = entrada - saida;
+        ConnectionHibernate.close();
+    }
+    
+    
 
     @Override
     public String toString() {

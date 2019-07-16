@@ -7,10 +7,14 @@ package testejl.testetecnicojl.Modelo.DAO;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import testejl.testetecnicojl.Modelo.VO.MovimentoEstoque;
+import testejl.testetecnicojl.Modelo.VO.Produto;
+import testejl.testetecnicojl.Modelo.VO.TipoMovimentacao;
 
 /**
  *
@@ -127,6 +131,28 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
         
         List<T> obj = query.getResultList();
         return obj;
+    }
+
+    @Override
+    public long soma(TipoMovimentacao tm, Produto p){
+        try {
+            String jpql = "SELECT SUM(quantidade) FROM " + MovimentoEstoque.class.getTypeName() 
+                + " WHERE tipo_movimentacao = '" + tm.getMovimentacao()
+                + "' GROUP BY produto HAVING produto =" +  p.getId();//
+            Query query = manager.createQuery(jpql); 
+            
+            long obj = (long) query.getSingleResult();
+            return  obj;
+        }catch(NullPointerException e){
+            return  0;
+        }catch(NoResultException e){
+            return  0;
+        }catch (Exception e) {
+           JOptionPane.showMessageDialog(null, "Erro inesperado!\n "+ e, "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
+           return 0; 
+        }
+        
+        
     }
     
 }

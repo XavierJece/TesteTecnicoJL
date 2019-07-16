@@ -6,6 +6,8 @@
 package testejl.testetecnicojl.Modelo.DAO;
 
 import java.util.List;
+import testejl.testetecnicojl.Modelo.VO.Produto;
+import testejl.testetecnicojl.Modelo.VO.TipoMovimentacao;
 
 /**
  *
@@ -22,6 +24,8 @@ public interface GenericDAO<T> {
     T listOne(String pkName, String pkValue, Class clazz, String pkName2, String pkValue2);
        
     List listAll(Class clazz);
+    
+    public long soma(TipoMovimentacao tm, Produto p);
     
     List listLike(Class clazz, String pkName, String pkValue);
     

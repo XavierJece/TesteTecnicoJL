@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import testejl.testetecnicojl.Modelo.DAO.GenericDAO;
 import testejl.testetecnicojl.Modelo.DAO.GenericDAOImpl;
+import testejl.testetecnicojl.Modelo.VO.Produto;
+import testejl.testetecnicojl.Modelo.VO.TipoMovimentacao;
 
 /**
  *
@@ -62,6 +64,9 @@ public class GenericRN<T> {
         return genericDAO.update(objeto);
     }
     
+    public long soma(TipoMovimentacao tm, Produto p){
+        return genericDAO.soma(tm, p);
+    }
 
     
 }
