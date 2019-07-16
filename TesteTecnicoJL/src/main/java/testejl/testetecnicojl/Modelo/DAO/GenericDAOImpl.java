@@ -38,10 +38,12 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             return true;
         } catch (PersistenceException e) {
             JOptionPane.showMessageDialog(null, "Erro!\n Dado já cadastrado.", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
+            manager.getTransaction().rollback();
             return false;
         }catch (Exception e){
              JOptionPane.showMessageDialog(null, "Erro: \n " + e, "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
-              return false;
+             manager.getTransaction().rollback();
+             return false;
         }
     }
 
@@ -97,11 +99,12 @@ public class GenericDAOImpl<T> implements GenericDAO<T> {
             manager.merge(objeto);
             manager.getTransaction().commit();
         } catch (PersistenceException e) {
-            JOptionPane.showMessageDialog(null, "Erro!\n Dado já cadastrado.", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
+            manager.getTransaction().rollback();
             return false;
         }catch (Exception e){
-             JOptionPane.showMessageDialog(null, "Erro: \n " + e, "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
-              return false;
+            JOptionPane.showMessageDialog(null, "Erro: \n " + e, "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
+            manager.getTransaction().rollback();
+            return false;
         }
         return true;
     }

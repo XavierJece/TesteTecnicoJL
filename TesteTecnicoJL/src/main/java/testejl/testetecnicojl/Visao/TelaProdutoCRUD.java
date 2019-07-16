@@ -220,8 +220,13 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Erro ao editar", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
                 }
             }
-            this.tmc.populaCmb();
-            this.ti.populaJtable();
+            try {
+                this.tmc.populaCmb();
+                this.ti.populaJtable();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro inesperado :(\n" + e, "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
+            }
+            
         }else{
             JOptionPane.showMessageDialog(null, "Dados Ivalidos! :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }

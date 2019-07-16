@@ -156,7 +156,9 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblProdutoKeyReleased
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
-        this.populaJtable(this.txtPesquisar.getText());
+        int qtdResultdados = this.populaJtable(this.txtPesquisar.getText());
+        JOptionPane.showMessageDialog(null, "Foram reontrados " + qtdResultdados
+                + " Produto(s) na pesquisa", "Atenção:D", 0,new ImageIcon(getClass().getResource("/icones/aviso.png")));
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
@@ -183,7 +185,7 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtPesquisarFocusGained
 
     private void txtPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarKeyReleased
-        this.populaJtable(this.txtPesquisar.getText());
+       this.populaJtable(this.txtPesquisar.getText());
     }//GEN-LAST:event_txtPesquisarKeyReleased
 
     
@@ -223,14 +225,16 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
         
     }
     
-    public void populaJtable(String condicao){
+    public int populaJtable(String condicao){
         DefaultTableModel modelo = (DefaultTableModel)(tblProduto.getModel());
         modelo.setNumRows(0);
         GenericRN<Produto>  produtoRN = new GenericRN<>();
         DateTimeFormatter formatadordDataBarra = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         
+        int quantidadeResultados = 0;
         for(Produto p : produtoRN.listLike(Produto.class, "descricao", condicao)){
+            quantidadeResultados++;
             modelo.addRow(new Object[] {
                 p.getId(),
                 p.getDescricao(),
@@ -244,6 +248,7 @@ public class TelaProdutoList extends javax.swing.JInternalFrame {
         tblProduto.setRowSorter(new TableRowSorter(modelo));
         
         
+        return quantidadeResultados;
     }
 
     

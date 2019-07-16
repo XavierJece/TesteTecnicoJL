@@ -144,24 +144,48 @@ public class TelaHome extends javax.swing.JFrame {
 
     private void jmbiProdutoCadastarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoCadastarActionPerformed
         this.jdkpHome.setVisible(true);
+        this.tpc.setBounds(0, 0, 600, 570);
         this.tpc.setVisible(true);
-        this.tpc.setTelaCadastro(true);        
+        this.tpc.setTelaCadastro(true);
+        
+        this.ti.setBounds(0, 0, 600, 570);
+        this.tpl.setVisible(false);
+        this.tmc.setVisible(false);
+        this.tml.setVisible(false);
     }//GEN-LAST:event_jmbiProdutoCadastarActionPerformed
 
     private void jmbiProdutoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiProdutoListaActionPerformed
         this.jdkpHome.setVisible(true);
+        this.tpl.setBounds(0, 0, 600, 570);
         this.tpl.setVisible(true);
+        
+        this.ti.setBounds(0, 0, 600, 570);
+        this.tpc.setVisible(false);
+        this.tmc.setVisible(false);
+        this.tml.setVisible(false);
     }//GEN-LAST:event_jmbiProdutoListaActionPerformed
 
     private void jmbiMovimentoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiMovimentoCadastroActionPerformed
         this.jdkpHome.setVisible(true);
+        this.tmc.setBounds(0, 0, 600, 570);
         this.tmc.setVisible(true);
         this.tmc.setTelaCadastro(true);
+        
+        this.ti.setBounds(0, 0, 600, 570);
+        this.tpl.setVisible(false);
+        this.tpc.setVisible(false);
+        this.tml.setVisible(false);
     }//GEN-LAST:event_jmbiMovimentoCadastroActionPerformed
 
     private void jmbiMovimentoListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmbiMovimentoListaActionPerformed
         this.jdkpHome.setVisible(true);
+        this.tml.setBounds(0, 0, 600, 570);
         this.tml.setVisible(true);
+        
+        this.ti.setBounds(0, 0, 600, 570);
+        this.tpl.setVisible(false);
+        this.tmc.setVisible(false);
+        this.tpc.setVisible(false);
     }//GEN-LAST:event_jmbiMovimentoListaActionPerformed
 
     /**

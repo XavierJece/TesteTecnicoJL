@@ -297,6 +297,17 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
                 Produto p = (Produto) this.cmbProduto.getSelectedItem();
                 System.err.println("q: " + p.getQuantidade());
                 if(Long.parseLong(quatidade) > p.getQuantidade()){
+                    
+                    if(p.getQuantidade() == 0){
+                        JOptionPane.showMessageDialog(null, "Não tem nenhuma unidade de "  + p.getDescricao()
+                                + " no estoque.\n "
+                                + "Não é possivel retirar! ", "Atenção:D", 0,new ImageIcon(getClass().getResource("/icones/aviso.png")));
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Só tem " + p.getQuantidade() + " unidade(s) de "  + p.getDescricao()
+                                + " no estoque.\n Não é possivel retirar uma "
+                                + "quantidade superior a essa.", "Atenção:D", 0,new ImageIcon(getClass().getResource("/icones/aviso.png")));
+                    }
+                    
                     this.txtQuantidade.setText("0");
                     return false;
                 }
