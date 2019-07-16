@@ -133,7 +133,7 @@ public class Produto {
         long saida = movimentoRN.soma(TipoMovimentacao.SAIDA, this);
         
         this.quantidade = entrada - saida;
-        ConnectionHibernate.close();
+//        ConnectionHibernate.close();s
     }
     
     

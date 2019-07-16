@@ -32,6 +32,8 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
     private Produto produto;
     private boolean telaCadastro;
     private TelaProdutoList tpl;
+    private TelaMovimentoCRUD tmc;
+    private TelaInicio ti;
     
 //    Construtor
     public TelaProdutoCRUD(String titulo, boolean telaCadastro) {
@@ -179,7 +181,6 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        System.out.println("Valor: " + converteValor());
          converteValor();
         if(this.validarCampos()){
           
@@ -219,7 +220,8 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Erro ao editar", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
                 }
             }
-            
+            this.tmc.populaCmb();
+            this.ti.populaJtable();
         }else{
             JOptionPane.showMessageDialog(null, "Dados Ivalidos! :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }
@@ -297,9 +299,6 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
         this.txtValor.setText(vf);
 
         return valor;
-        
-        
-        
     }
     
     private void limpaCampos(){
@@ -348,6 +347,22 @@ public class TelaProdutoCRUD extends javax.swing.JInternalFrame {
 
     public void setTml(TelaProdutoList tpl) {
         this.tpl = tpl;
+    }
+
+    public TelaInicio getTi() {
+        return ti;
+    }
+
+    public void setTi(TelaInicio ti) {
+        this.ti = ti;
+    }
+
+    public TelaMovimentoCRUD getTmc() {
+        return tmc;
+    }
+
+    public void setTmc(TelaMovimentoCRUD tmc) {
+        this.tmc = tmc;
     }
     
 }

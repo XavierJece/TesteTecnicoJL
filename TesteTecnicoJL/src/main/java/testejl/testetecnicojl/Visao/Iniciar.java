@@ -21,27 +21,10 @@ public class Iniciar {
     
     public static void main(String[] args) {
         
+        TelaHome telaHome = new TelaHome();
         
-        GenericDAO<MovimentoEstoque> movimentoDAO = new GenericDAOImpl<>();
-        GenericRN<Produto> produtoRN = new GenericRN<>();
+        telaHome.setVisible(true);
         
-        long entrada, saida, quantidade;
-        
-        
-        for(Produto p : produtoRN.listAll(Produto.class)){
-            entrada = movimentoDAO.soma(TipoMovimentacao.ENTRADA, p);
-            saida = movimentoDAO.soma(TipoMovimentacao.SAIDA, p);
-            quantidade = entrada - saida;
-            
-            System.err.println(p.getDescricao() + " tem no estoque " + quantidade);
-        }
-            ConnectionHibernate.close();
-        
-        
-//        TelaHome telaHome = new TelaHome();
-//        
-//        telaHome.setVisible(true);
-//        
         
     }
     

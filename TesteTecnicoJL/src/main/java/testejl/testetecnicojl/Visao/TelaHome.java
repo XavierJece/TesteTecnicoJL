@@ -18,6 +18,7 @@ public class TelaHome extends javax.swing.JFrame {
     TelaMovimentoList tml;
     TelaProdutoCRUD tpc;
     TelaProdutoList tpl;
+    TelaInicio ti;
     
     
     /**
@@ -214,25 +215,32 @@ public class TelaHome extends javax.swing.JFrame {
     /*Minhas funções*/
     private void carregandoTelasInternas(){
 //        Instanciando as telas internas
+        this.ti = new TelaInicio();
         this.tmc = new TelaMovimentoCRUD("Cadastro", true);
         this.tml = new TelaMovimentoList(this.tmc);
         this.tmc.setTml(tml);
+        this.tmc.setTi(ti);
+        
         
         this.tpc = new TelaProdutoCRUD("Cadastro", true);
         this.tpl = new TelaProdutoList(this.tpc);
         this.tpc.setTml(tpl);
+        this.tpc.setTi(ti);
+        this.tpc.setTmc(tmc);
         
 //        Adicionando as telas do jdkpHome
         this.jdkpHome.add(tmc);
         this.jdkpHome.add(tml);
         this.jdkpHome.add(tpc);
         this.jdkpHome.add(tpl);
+        this.jdkpHome.add(ti);
         
-        this.jdkpHome.setVisible(false);
+        this.jdkpHome.setVisible(true);
         this.tmc.setVisible(false);
         this.tml.setVisible(false);
         this.tpc.setVisible(false);
         this.tpl.setVisible(false);
+        this.ti.setVisible(true);
     }
 
 }

@@ -26,6 +26,7 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
     private MovimentoEstoque movimento;
     private boolean telaCadastro;
     private TelaMovimentoList tml;
+    private TelaInicio ti;
     
 //    Construtor
     public TelaMovimentoCRUD(String titulo, boolean telaCadastro) {
@@ -170,14 +171,14 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
 //            lendo os dados inseridos
             int quatidade = Integer.parseInt(this.txtQuantidade.getText());
             LocalDate dataMovimentacao = dateToLocalDate(jdcData.getDate());
-            Produto prduto = (Produto) cmbProduto.getSelectedItem();
+            Produto produto = (Produto) cmbProduto.getSelectedItem();
             TipoMovimentacao tm = (TipoMovimentacao) cmbTipoMovimento.getSelectedItem();
             
             GenericRN<MovimentoEstoque> movitementoRN = new GenericRN<>();
             
             if(this.telaCadastro){
                 
-                this.movimento = new MovimentoEstoque(prduto, dataMovimentacao, quatidade, tm);
+                this.movimento = new MovimentoEstoque(produto, dataMovimentacao, quatidade, tm);
                 
                 if(movitementoRN.save(this.movimento)){
                     JOptionPane.showMessageDialog(null, "Cadastrado com sucesso", "Sucesso :)", 0,new ImageIcon(getClass().getResource("/icones/sucesso.png")));
@@ -191,7 +192,7 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
             }else{
                 this.movimento.setQuantidade(quatidade);
                 this.movimento.setDataMovimento(dataMovimentacao);
-                this.movimento.setProduto(prduto);
+                this.movimento.setProduto(produto);
                 this.movimento.setTipoMovimento(tm);
                 
                 if(movitementoRN.update(this.movimento)){
@@ -204,7 +205,7 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
                     JOptionPane.showMessageDialog(null, "Erro ao editar", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
                 }
             }
-            
+            ti.populaJtable();
         }else{
             JOptionPane.showMessageDialog(null, "Dados Ivalidos\n\n :(", "Falha :(", 0,new ImageIcon(getClass().getResource("/icones/errado.png")));
         }
@@ -220,9 +221,7 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnFecharActionPerformed
 
     private void txtQuantidadeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtQuantidadeFocusLost
-        String quatidade = this.txtQuantidade.getText();
-        quatidade = quatidade.replace("-", "");
-        this.txtQuantidade.setText(quatidade);
+        validaQuantidadeRetirada();
     }//GEN-LAST:event_txtQuantidadeFocusLost
 
     
@@ -252,6 +251,8 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
         }else if (dateToLocalDate(this.jdcData.getDate()).isAfter(LocalDate.now()) ){
             return false;
         }else if (dateToLocalDate(this.jdcData.getDate()).isBefore(LocalDate.of(2000, 01, 01)) ){
+            return false;
+        }else if(!validaQuantidadeRetirada()){
             return false;
         }else{
             SimpleDateFormat sdff = new SimpleDateFormat("dd/MM/yyyy"); 
@@ -286,6 +287,36 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
         
     }
     
+    private boolean validaQuantidadeRetirada(){
+        String quatidade = this.txtQuantidade.getText();
+        quatidade = quatidade.replace("-", "");
+        try {
+            Integer.parseInt(quatidade);
+            
+            if(this.cmbTipoMovimento.getSelectedIndex() == 1){
+                Produto p = (Produto) this.cmbProduto.getSelectedItem();
+                System.err.println("q: " + p.getQuantidade());
+                if(Long.parseLong(quatidade) > p.getQuantidade()){
+                    this.txtQuantidade.setText("0");
+                    return false;
+                }
+            }
+            this.txtQuantidade.setText(quatidade);
+            return true;
+            
+        } catch (NullPointerException e) {
+            this.txtQuantidade.setText("0");
+            return false;
+        } catch (Exception e) {
+            this.txtQuantidade.setText("0");
+            return false;
+        }
+        
+        
+        
+        
+    }
+    
     private void limpaCampos(){
         this.jdcData.setDate(localDateToDate(LocalDate.now()));
         this.cmbTipoMovimento.setSelectedIndex(0);
@@ -298,15 +329,17 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
         
     }
     
-    private void populaCmb(){
-        
+    public void populaCmb(){
+        this.cmbProduto.removeAllItems();
         GenericRN<Produto> produdoRN =new GenericRN<>();
         
         for (Produto p : produdoRN.listAll(Produto.class)){
-
+            p.setQuantidade();
             this.cmbProduto.addItem(p);
         }
-
+        
+        this.cmbTipoMovimento.removeAllItems();
+        
         this.cmbTipoMovimento.addItem(TipoMovimentacao.ENTRADA);
         this.cmbTipoMovimento.addItem(TipoMovimentacao.SAIDA);           
     }
@@ -336,6 +369,14 @@ public class TelaMovimentoCRUD extends javax.swing.JInternalFrame {
 
     public void setTml(TelaMovimentoList tml) {
         this.tml = tml;
+    }
+
+    public TelaInicio getTi() {
+        return ti;
+    }
+
+    public void setTi(TelaInicio ti) {
+        this.ti = ti;
     }
     
 }
